@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hospital_patient_form" model="ir.ui.view">
+        <field name="name">hospital.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                        </group>
+                    </group>
+                     <notebook>
+                        <page string="Patient_description" name="name">
+                            <field name="appointment_lines">
+                            <tree>
+                                <field name="appointment_id" />
+                                <field name="no_of_patients" />
+                            </tree>
+                            </field>
+
+                        </page>
+                         <page string="Patient_age" name="age">
+                            <field name="age"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_hospital_patient_tree" model="ir.ui.view">
+        <field name="name">hospital.patient.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"
+                       filter_domain="['|', ('name', 'ilike', self), '|', ('age', 'ilike', self), ('gender', 'ilike', self)]"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_hospital_patient_kanban" model="ir.ui.view">
+            <field name="name">hospital.patient.kanban</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="age"/>
+                    <field name="gender"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        Name:<field name="name"/>
+                                    </li>
+                                    <li>
+                                        Age:<field name="age"/>
+                                    </li>
+                                    <li>
+                                        Gender:<field name="gender"/>
+                                    </li>
+                                </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    <record id="action_hospital_patient" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new patient
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_patient"
+              name="Patient"
+              action="action_hospital_patient"
+              parent="menu_patient_master"
+              sequence="0"/>
+</odoo>
